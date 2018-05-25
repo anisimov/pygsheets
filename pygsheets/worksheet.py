@@ -856,7 +856,7 @@ class Worksheet(object):
         }
         self.client.sh_batch_update(self.spreadsheet.id, request, batch=self.spreadsheet.batch_mode)
 
-    def append_table(self, start='A1', end=None, values=None, dimension='ROWS', overwrite=False):
+    def append_table(self, start='A1', end=None, values=None, dimension='ROWS', overwrite=False, batch=False):
         """Append values to the sheet.
 
         Reference: https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append
@@ -875,7 +875,7 @@ class Worksheet(object):
         if not end:
             end = (self.rows, self.cols)
         body = {"values": values, "majorDimension": dimension}
-        self.client.sh_append(self.spreadsheet.id, body=body, rranage=self._get_range(start, end), replace=overwrite)
+        self.client.sh_append(self.spreadsheet.id, body=body, rranage=self._get_range(start, end), replace=overwrite, batch=batch)
         self.refresh(False)
 
     def replace(self, pattern, replacement=None, **kwargs):
